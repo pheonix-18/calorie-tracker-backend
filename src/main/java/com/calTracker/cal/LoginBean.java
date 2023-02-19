@@ -1,6 +1,6 @@
 package com.calTracker.cal;
 
-public class LoginRequest {
+public class LoginBean {
     public String email;
     public String password;
     

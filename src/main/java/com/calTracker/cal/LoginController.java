@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 // Allow cross origin from localhost:3000 and localhost:4200
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
-public class controller {
+public class LoginController {
 
     @Autowired
     private UsersRepository usersRepository;
@@ -28,17 +27,17 @@ public class controller {
 
     @RequestMapping(value="/validate/", method=RequestMethod.POST)
     // A post request to /validate will validate the user's login credentials EMAIL and PASSWORD
-    public ResponseEntity<LoginRequest> validate(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginBean> validate(@RequestBody LoginBean loginBean) {
         // Print emaill and password to console
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
+        String email = loginBean.getEmail();
+        String password = loginBean.getPassword();
 
         Users user = usersRepository.findByEmail(email);
 
         String userPass = user.getPassword();
 
         if(userPass.equals(password))
-            return ResponseEntity.ok(loginRequest);
+            return ResponseEntity.ok(loginBean);
         else
             return ResponseEntity.badRequest().build();
 
